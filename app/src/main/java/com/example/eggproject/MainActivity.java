@@ -5,22 +5,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     ImageButton btn_egg;
     Button btn_reset;
     Button btn_scores;
     ImageButton btn_back;
     TextView txt_num;
     TextView txt_help;
+    Switch swt;
     String name;
     int count;
 
@@ -39,10 +43,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_scores = findViewById(R.id.btn_scores);
         btn_back = findViewById(R.id.btn_back);
         txt_num = findViewById(R.id.txt_num);
+        swt = findViewById(R.id.swt);
         btn_egg.setOnClickListener(this);
         btn_reset.setOnClickListener(this);
         btn_scores.setOnClickListener(this);
         btn_back.setOnClickListener(this);
+        swt.setOnCheckedChangeListener(this);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -80,6 +86,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(v == btn_back)
         {
             finish();
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(@NonNull CompoundButton compoundButton, boolean b)
+    {
+        if(b)
+        {
+            btn_egg.setImageAlpha(128);
+        }
+        else
+        {
+            btn_egg.setImageAlpha(255);
         }
     }
 }
