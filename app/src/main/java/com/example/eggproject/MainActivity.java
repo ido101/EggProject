@@ -18,6 +18,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+    private EggManager em;
     ImageButton btn_egg;
     Button btn_reset;
     Button btn_scores;
@@ -26,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView txt_help;
     Switch swt;
     String name;
-    int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         name = intent.getStringExtra("name");
         txt_help = findViewById(R.id.txt_help);
         txt_help.setText(name + " help me!");
-        count = 10;
+        em = new EggManager(this);
         btn_egg = findViewById(R.id.btn_egg);
         btn_reset = findViewById(R.id.btn_reset);
         btn_scores = findViewById(R.id.btn_scores);
@@ -61,11 +61,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         if(v == btn_egg)
         {
-            if(count > 1)
+            if(em.isItTime())
             {
-                count--;
-                txt_num.setText(Integer.toString(count));
-                if (count == 5)
+                em.setCount(em.getCount()-1);
+                txt_num.setText(Integer.toString(em.getCount()));
+                if (em.getCount() == 5)
                 {
                     btn_egg.setImageResource(R.drawable.cracked);
                 }
@@ -79,8 +79,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(v == btn_reset)
         {
             btn_egg.setImageResource(R.drawable.egg);
-            count = 10;
-            txt_num.setText(Integer.toString(count));
+            em.setCount(10);
+            txt_num.setText(Integer.toString(em.getCount()));
             txt_num.setVisibility(View.VISIBLE);
         }
         if(v == btn_back)
