@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView txt_help;
     Switch swt;
     String name;
+    String password;
+    private DataBaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
+        password = intent.getStringExtra("password");
         txt_help = findViewById(R.id.txt_help);
         txt_help.setText(name + " help me!");
         em = new EggManager(this);
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_scores.setOnClickListener(this);
         btn_back.setOnClickListener(this);
         swt.setOnCheckedChangeListener(this);
+        dbHelper = new DataBaseHelper(this);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -61,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         if(v == btn_egg)
         {
-            if(em.isItTime())
+            if(!em.isItTime())
             {
                 em.setCount(em.getCount()-1);
                 txt_num.setText(Integer.toString(em.getCount()));
@@ -73,7 +77,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             else
             {
                 txt_num.setVisibility(View.INVISIBLE);
+                txt_help.setVisibility(View.INVISIBLE);
                 btn_egg.setImageResource(R.drawable.bird);
+                dbHelper.updateGames(name, password);
             }
         }
         if(v == btn_reset)

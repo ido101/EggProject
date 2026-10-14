@@ -16,6 +16,6 @@ public class EggManager
     }
     public boolean isItTime()
     {
-        return count > 1;
+        return count <= 1;
     }
 }
