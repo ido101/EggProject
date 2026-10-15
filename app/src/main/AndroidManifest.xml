@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EggProject">
         <activity
+            android:name=".Leaderboard"
+            android:exported="false" />
+        <activity
             android:name=".Login"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
@@ -24,9 +27,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
-
+            android:windowSoftInputMode="adjustResize"></activity>
     </application>
 
 </manifest>

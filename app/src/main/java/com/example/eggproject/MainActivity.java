@@ -93,6 +93,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             finish();
         }
+        if(v == btn_scores)
+        {
+            Intent intent = new Intent(MainActivity.this, Leaderboard.class);
+            startActivity(intent);
+        }
     }
 
     @Override

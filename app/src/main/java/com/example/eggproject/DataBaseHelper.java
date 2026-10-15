@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "EggProject.db";
     private static final int DATABASE_VERSION = 2;
@@ -152,5 +154,39 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, null, null);
         db.close();
+    }
+    public ArrayList<String> getNames(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        ArrayList<String> names = new ArrayList<String>();
+        if(c != null & c.moveToFirst()){
+            int nameIndex = c.getColumnIndex(PLAYER_NAME);
+            while(!c.isAfterLast()){
+                names.add(c.getString(nameIndex));
+                c.moveToNext();
+            }
+        }
+        if(c != null){
+            c.close();
+        }
+        db.close();
+        return names;
+    }
+    public ArrayList<Integer> getGames(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        ArrayList<Integer> names = new ArrayList<Integer>();
+        if(c != null & c.moveToFirst()){
+            int gamesIndex = c.getColumnIndex(NUM_OF_GAMES);
+            while(!c.isAfterLast()){
+                names.add(c.getInt(gamesIndex));
+                c.moveToNext();
+            }
+        }
+        if(c != null){
+            c.close();
+        }
+        db.close();
+        return names;
     }
 }
