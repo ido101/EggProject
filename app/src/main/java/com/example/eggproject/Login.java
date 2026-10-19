@@ -31,7 +31,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         edit_pass = findViewById(R.id.edit_pass);
         dbHelper = new DataBaseHelper(this);
         btn_login.setOnClickListener(this);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.lb_main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;

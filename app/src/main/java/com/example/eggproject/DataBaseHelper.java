@@ -189,4 +189,29 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
         return names;
     }
+    public ArrayList<Player> getPlayersInfo()
+    {
+        ArrayList<Player> players = new ArrayList<Player>();
+        Player p;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        if (c != null && c.moveToFirst())
+        {
+            int nameIndex = c.getColumnIndex(PLAYER_NAME);
+            int scoreIndex = c.getColumnIndex(NUM_OF_GAMES);
+            int passwordIndex = c.getColumnIndex(PASSWORD);
+            while (!c.isAfterLast()) {
+                p = new Player(c.getString(nameIndex), c.getString(passwordIndex),
+                        c.getInt(scoreIndex));
+                players.add(p);
+                c.moveToNext();
+            }
+        }
+        if (c != null)
+        {
+            c.close();
+        }
+        db.close();
+        return players;
+    }
 }

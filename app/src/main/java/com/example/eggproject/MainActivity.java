@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_back.setOnClickListener(this);
         swt.setOnCheckedChangeListener(this);
         dbHelper = new DataBaseHelper(this);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.lb_main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -80,14 +80,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txt_help.setVisibility(View.INVISIBLE);
                 btn_egg.setImageResource(R.drawable.bird);
                 dbHelper.updateGames(name, password);
+                btn_egg.setEnabled(false);
             }
         }
         if(v == btn_reset)
         {
             btn_egg.setImageResource(R.drawable.egg);
             em.setCount(10);
+            txt_help.setVisibility(View.VISIBLE);
             txt_num.setText(Integer.toString(em.getCount()));
             txt_num.setVisibility(View.VISIBLE);
+            btn_egg.setEnabled(true);
         }
         if(v == btn_back)
         {
