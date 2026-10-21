@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Switch swt;
     String name;
     String password;
+    boolean c;
     private DataBaseHelper dbHelper;
 
     @Override
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txt_help = findViewById(R.id.txt_help);
         txt_help.setText(name + " help me!");
         em = new EggManager(this);
+        c = false;
         btn_egg = findViewById(R.id.btn_egg);
         btn_reset = findViewById(R.id.btn_reset);
         btn_scores = findViewById(R.id.btn_scores);
@@ -80,13 +82,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txt_help.setVisibility(View.INVISIBLE);
                 btn_egg.setImageResource(R.drawable.bird);
                 dbHelper.updateGames(name, password);
+                if(c){
+                    dbHelper.updateGames(name, password);
+                }
                 btn_egg.setEnabled(false);
             }
         }
         if(v == btn_reset)
         {
             btn_egg.setImageResource(R.drawable.egg);
-            em.setCount(10);
+            if(c){
+                em.setCount(100);
+            }
+            else{
+                em.setCount(10);
+            }
             txt_help.setVisibility(View.VISIBLE);
             txt_num.setText(Integer.toString(em.getCount()));
             txt_num.setVisibility(View.VISIBLE);
@@ -108,11 +118,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         if(b)
         {
-            btn_egg.setImageAlpha(128);
+            c = true;
+            em.setCount(100);
+            txt_num.setText(Integer.toString(em.getCount()));
         }
         else
         {
-            btn_egg.setImageAlpha(255);
+            c = false;
+            em.setCount(10);
+            txt_num.setText(Integer.toString(em.getCount()));
         }
     }
 }

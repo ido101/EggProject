@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
@@ -24,6 +27,9 @@ public class Leaderboard extends AppCompatActivity implements View.OnClickListen
     TextView txt_name;
     TextView txt_score;
     private RecyclerView rv_players;
+    Button btn_delete;
+    Button btn_specific;
+    EditText edit_player;
     ImageButton btn_back;
     private DataBaseHelper dbHelper;
     private ArrayList<Player> players;
@@ -35,6 +41,9 @@ public class Leaderboard extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.activity_leaderboard);
         txt_name = findViewById(R.id.txt_name);
         txt_score = findViewById(R.id.txt_score);
+        btn_delete = findViewById(R.id.btn_delete);
+        btn_specific = findViewById(R.id.btn_specific);
+        edit_player = findViewById(R.id.edit_player);
         txt_name.setPaintFlags(txt_name.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         txt_score.setPaintFlags(txt_score.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         Intent intent = getIntent();
@@ -45,6 +54,8 @@ public class Leaderboard extends AppCompatActivity implements View.OnClickListen
         Collections.sort(players);
         ea = new EggAdapter(players);
         btn_back.setOnClickListener(this);
+        btn_delete.setOnClickListener(this);
+        btn_specific.setOnClickListener(this);
         rv_players.setAdapter(ea);
         rv_players.setLayoutManager(new LinearLayoutManager(this));
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.lb_main), (v, insets) -> {
@@ -58,6 +69,13 @@ public class Leaderboard extends AppCompatActivity implements View.OnClickListen
     public void onClick(View view) {
         if(view == btn_back){
             finish();
+        }
+        if(view == btn_delete){
+            dbHelper.clearPlayers();
+        }
+        if(view == btn_specific){
+            dbHelper.removePlayer(String.valueOf(edit_player.getText()));
+            edit_player.setText("");
         }
     }
 }
